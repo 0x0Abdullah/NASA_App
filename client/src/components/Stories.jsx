@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUpRight, MapPin, Mars, Moon, X } from "lucide-react";
+import { ArrowUpRight, Globe2, MapPin, Mars, Moon, Search, X } from "lucide-react";
 import { useFetch } from "../hooks/useApi.js";
 
 const statusMeta = {
@@ -10,6 +10,7 @@ const statusMeta = {
   grounded: { label: "Grounded", cls: "bg-signal/15 text-signal border-signal/40" },
   entombed: { label: "Entombed", cls: "bg-ice/10 text-ice border-ice/40" },
   cached: { label: "Cached for pickup", cls: "bg-marsgold/10 text-marsgold border-marsgold/40" },
+  lost: { label: "Never found", cls: "bg-rust/15 text-rust-light border-rust/40" },
 };
 
 function StoryModal({ story, onClose, onNav }) {
@@ -131,12 +132,22 @@ function StoryModal({ story, onClose, onNav }) {
 }
 
 export default function Stories() {
-  const [tab, setTab] = useState("moon");
+  const [tab, setTab] = useState("all");
+  const [query, setQuery] = useState("");
   const [openId, setOpenId] = useState(null);
   const { data, loading, error, refetch } = useFetch("/api/stories");
   const all = data ?? [];
 
-  const filtered = all.filter((s) => s.destination === tab);
+  const q = query.trim().toLowerCase();
+  const filtered = all.filter((s) => {
+    const byTab = tab === "all" || s.destination === tab;
+    const byQuery =
+      !q ||
+      [s.name, s.aka, s.tagline, s.year, s.coordinates, s.destination]
+        .filter(Boolean)
+        .some((v) => String(v).toLowerCase().includes(q));
+    return byTab && byQuery;
+  });
   const openStory = all.find((s) => s.id === openId) ?? null;
 
   const navigate = (dir) => {
@@ -161,35 +172,64 @@ export default function Stories() {
               HAS A LAST DAY
             </h2>
             <p className="mt-6 text-dust leading-relaxed">
-              Twelve stories from two worlds. Pick a planet, open a card, and read what happened the
-              day each machine went quiet.
+              {all.length ? `${all.length} stories` : "Stories"} from two worlds. Pick a planet, open
+              a card, and read what happened the day each machine went quiet.
             </p>
           </div>
 
-          {/* tabs */}
-          <div className="inline-flex rounded-full border border-lunar/20 bg-hull/60 p-1.5 backdrop-blur">
-            {[
-              { id: "moon", label: "Moon", icon: Moon },
-              { id: "mars", label: "Mars", icon: Mars },
-            ].map((t) => (
-              <button
-                key={t.id}
-                onClick={() => setTab(t.id)}
-                className={`relative inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-xs font-display uppercase tracking-[0.2em] transition-colors ${
-                  tab === t.id ? "text-void" : "text-dust hover:text-white"
-                }`}
-              >
-                {tab === t.id && (
-                  <motion.span
-                    layoutId="story-tab"
-                    className="absolute inset-0 rounded-full bg-gradient-to-r from-signal to-ice"
-                    transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                  />
-                )}
-                <t.icon className="relative size-3.5" />
-                <span className="relative">{t.label}</span>
-              </button>
-            ))}
+          {/* tabs + search */}
+          <div className="flex w-full flex-col items-start gap-3 lg:w-auto lg:items-end">
+            <div className="inline-flex rounded-full border border-lunar/20 bg-hull/60 p-1.5 backdrop-blur">
+              {[
+                { id: "all", label: "All", icon: Globe2 },
+                { id: "moon", label: "Moon", icon: Moon },
+                { id: "mars", label: "Mars", icon: Mars },
+              ].map((t) => (
+                <button
+                  key={t.id}
+                  onClick={() => setTab(t.id)}
+                  aria-pressed={tab === t.id}
+                  className={`relative inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-display uppercase tracking-[0.2em] transition-colors ${
+                    tab === t.id ? "text-void" : "text-dust hover:text-white"
+                  }`}
+                >
+                  {tab === t.id && (
+                    <motion.span
+                      layoutId="story-tab"
+                      className="absolute inset-0 rounded-full bg-gradient-to-r from-signal to-ice"
+                      transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                    />
+                  )}
+                  <t.icon className="relative size-3.5" />
+                  <span className="relative">{t.label}</span>
+                </button>
+              ))}
+            </div>
+
+            <label className="relative block w-full lg:w-72">
+              <Search
+                aria-hidden="true"
+                className="pointer-events-none absolute left-3.5 top-1/2 size-4 -translate-y-1/2 text-dust"
+              />
+              <input
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search stories…"
+                aria-label="Search stories"
+                className="w-full rounded-full border border-lunar/20 bg-hull/60 py-2.5 pl-10 pr-9 text-sm text-white placeholder:text-dust/70 outline-none backdrop-blur transition-colors focus:border-signal/60"
+              />
+              {query && (
+                <button
+                  type="button"
+                  onClick={() => setQuery("")}
+                  aria-label="Clear search"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-dust transition-colors hover:text-white"
+                >
+                  <X className="size-4" />
+                </button>
+              )}
+            </label>
           </div>
         </div>
 
@@ -215,10 +255,15 @@ export default function Stories() {
         )}
 
         {/* grid */}
-        {!loading && !error && (
+        {!loading && !error && filtered.length > 0 && (
+          <>
+            <p className="mt-10 font-display text-[11px] uppercase tracking-[0.25em] text-dust">
+              Showing {filtered.length} of {all.length} stories
+              {q ? ` · matching “${query.trim()}”` : ""}
+            </p>
           <motion.div
             layout
-            className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           >
             <AnimatePresence mode="popLayout">
               {filtered.map((s, i) => {
@@ -283,6 +328,28 @@ export default function Stories() {
               })}
             </AnimatePresence>
           </motion.div>
+          </>
+        )}
+
+        {/* no results */}
+        {!loading && !error && filtered.length === 0 && (
+          <div className="mt-12 panel rounded-xl p-10 text-center">
+            <p className="font-display text-sm uppercase tracking-[0.25em] text-white">
+              No signals match {q ? `“${query.trim()}”` : "this filter"}
+            </p>
+            <p className="mx-auto mt-3 max-w-md text-sm text-dust">
+              Nothing in the archive answers to that name — try another word, or reset the filters.
+            </p>
+            <button
+              onClick={() => {
+                setQuery("");
+                setTab("all");
+              }}
+              className="mt-5 rounded-full border border-signal/50 px-5 py-2 text-xs uppercase tracking-widest text-signal transition-colors hover:bg-signal/10"
+            >
+              Reset filters
+            </button>
+          </div>
         )}
       </div>
 

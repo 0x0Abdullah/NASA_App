@@ -32,6 +32,15 @@ export const timeline = [
     status: "silent",
   },
   {
+    id: "t13",
+    year: "1969",
+    title: "Apollo 12 inspects a machine that landed itself",
+    destination: "moon",
+    summary:
+      "Two years after it fell silent, Surveyor 3 was photographed up close by astronauts Conrad and Bean — humanity's first inspection of an unmanned spacecraft on another world. They even cut pieces off it and took them home.",
+    status: "silent",
+  },
+  {
     id: "t3",
     year: "1971",
     title: "First lunar rover abandons ship",
@@ -50,6 +59,15 @@ export const timeline = [
     status: "silent",
   },
   {
+    id: "t14",
+    year: "1977",
+    title: "The Moon's laboratories close for good",
+    destination: "moon",
+    summary:
+      "The last nuclear-powered experiment station was switched off after eight years of moonquake data. Five stations remain, ribbon-cabled across the dust like a museum with no doors.",
+    status: "silent",
+  },
+  {
     id: "t5",
     year: "1997",
     title: "Sojourner crawls out of the bag",
@@ -57,6 +75,15 @@ export const timeline = [
     summary:
       "The microwave-oven-sized rover rolled down a ramp onto Ares Vallis — the first wheels ever to turn on another planet. It kept exploring for 83 days.",
     status: "silent",
+  },
+  {
+    id: "t15",
+    year: "1999",
+    title: "A units error erases an orbiter",
+    destination: "mars",
+    summary:
+      "Mars Climate Orbiter flew too low and burned in the atmosphere — its navigation software had been fed thrust data in pound-seconds while everything else expected newton-seconds. $125 million lost to a mismatch of measures.",
+    status: "lost",
   },
   {
     id: "t6",
@@ -376,6 +403,90 @@ export const stories = [
       { k: "Waiting since", v: "January 2023" },
     ],
   },
+  {
+    id: "surveyor",
+    destination: "moon",
+    name: "The Machine That Proved the Ground Would Hold",
+    aka: "Surveyor program · Oceanus Procellarum",
+    year: "1966",
+    image: "/images/surveyor.jpg",
+    tagline: "Before humans could land, seven robots had to fall — and five had to stick the landing.",
+    status: "preserved",
+    coordinates: "2.47° S, 301.81° E · Surveyor 1 site",
+    story: [
+      "In May 1966, Surveyor 1 touched down on the Moon in a controlled freefall — the first American soft landing on another world, and the proof NASA needed that Apollo's legs would not sink into dust. Its camera returned more than 11,000 images of a soil that looked solid, granular, and very, very real.",
+      "Of seven Surveyors, five landed successfully. They dug trenches, tested bearing strength, and photographed their own footpads — and one, Surveyor 3, was still standing when Apollo 12 came to call two years later. Conrad and Bean walked over, cut pieces off its camera arm, and bolted the stolen hardware into their own lander for the ride home: humanity's first salvage job on the Moon.",
+      "The probes lie where they fell across six landing sites, their aluminum frames uncorroded in vacuum. Every one of them is a dress rehearsal that never stopped being useful — the ground they tested still holds every footprint ever pressed into it.",
+    ],
+    facts: [
+      { k: "Program result", v: "5 of 7 landed safely" },
+      { k: "First U.S. soft landing", v: "May 30, 1966" },
+      { k: "Visited by", v: "Apollo 12 crew, Nov 1969" },
+    ],
+  },
+  {
+    id: "alsep",
+    destination: "moon",
+    name: "Five Nuclear Batteries Still Warm",
+    aka: "Apollo Lunar Surface Experiments Packages",
+    year: "1969 – 1977",
+    image: "/images/alsep.jpg",
+    tagline: "The Moon's first laboratories were plugged into plutonium — and some are still glowing.",
+    status: "silent",
+    coordinates: "Five sites · Apollo 12, 14, 15, 16, 17",
+    story: [
+      "Between 1969 and 1972, five Apollo crews carried the Moon's first laboratory onto the surface: seismometers that felt moonquakes, heat-flow probes, mirrors and detectors, all snaking out from a central station on orange ribbon cable — exactly as Apollo 14's station still looks today.",
+      "Power came from SNAP-27: a toaster-sized generator holding plutonium-238, glowing day and night with no sun, no wind, no maintenance. On Apollo 17 the crew accidentally dropped one; it split open and its fuel melted into the dust — the only nuclear accident on the Moon, quietly contained by vacuum and regolith.",
+      "The stations transmitted for eight years, then fell silent in 1977 — never retrieved, because mass spent on the way home was mass not spent getting home. Half a century on, the plutonium is still warm: each battery will keep outliving its silence for centuries, a necklace of dim, patient stars human hands left switched on.",
+    ],
+    facts: [
+      { k: "Stations deployed", v: "5 (12, 14, 15, 16, 17)" },
+      { k: "Power source", v: "SNAP-27 plutonium-238" },
+      { k: "Last data", v: "September 1977" },
+    ],
+  },
+  {
+    id: "mars-polar-lander",
+    destination: "mars",
+    name: "Vanished in the Last Three Seconds",
+    aka: "Mars Polar Lander · Planum Australe",
+    year: "1999",
+    image: "/images/mars-polar-lander.jpg",
+    tagline: "It left Earth aboard a Delta II. The rocket worked. The lander never checked in.",
+    status: "lost",
+    coordinates: "76.0° S, 195.0° W · south polar plains",
+    story: [
+      "On November 3, 1999, Mars Polar Lander was supposed to brake onto the southern plains with legs extended, engines firing until contact sensors touched the ground. Telemetry stopped about 40 meters up. No landing call, no signal, no crash site — a mission that ended in the middle of a sentence.",
+      "The leading theory is almost cruel: a puff of dust off the landing legs may have tripped the engine-cut sensor early, so the lander shut its engines down and fell the rest of the way. Its two Deep Space 2 companions, dropped beforehand as spinning probes, went silent in the same window — three machines lost at Mars in a single afternoon.",
+      "Orbital cameras have combed the landing zone for years and never conclusively found it. Somewhere under the seasonal CO₂ frost of the south pole rests a lander that carried a shovel, a camera and humanity's first arctic Mars sample — exactly where it stopped asking for help.",
+    ],
+    facts: [
+      { k: "Last contact", v: "November 3, 1999" },
+      { k: "Estimated failure height", v: "~40 m above ground" },
+      { k: "Also lost", v: "2 Deep Space 2 probes" },
+    ],
+  },
+  {
+    id: "mars-climate-orbiter",
+    destination: "mars",
+    name: "The $125 Million Typo",
+    aka: "Mars Climate Orbiter · lost at Mars",
+    year: "1999",
+    image: "/images/mars-climate-orbiter.jpg",
+    tagline: "One team typed pound-seconds. The other expected newton-seconds. The orbiter flew too low.",
+    status: "lost",
+    coordinates: "Mars upper atmosphere — no surface site",
+    story: [
+      "Mars Climate Orbiter was meant to be a weather satellite for a planet that has weather: dust storms, clouds, seasons. After nine months of cruising it arrived at Mars on September 23, 1999, aimed to slip behind the planet and brake into orbit — but it dipped too low, too fast, and skipped off the atmosphere instead.",
+      "The investigation found a mismatch so plain it sounds fictional: Lockheed Martin's ground software pushed thruster data in pound-force seconds while JPL's navigation team read it as newton-seconds. Nobody caught the translation for months. The spacecraft wasn't broken — it was simply told the wrong numbers, and it obeyed them perfectly.",
+      "It burned up in the Martian atmosphere; no wreckage will ever be found, no plaque, no tracks. It is the purest kind of abandoned hardware: a machine discarded by arithmetic, remembered every time someone adds a unit check to a checklist.",
+    ],
+    facts: [
+      { k: "Lost", v: "September 23, 1999" },
+      { k: "Root cause", v: "Pound-seconds vs newton-seconds" },
+      { k: "Mission cost", v: "$125.6 million" },
+    ],
+  },
 ];
 
 export const gallery = [
@@ -387,4 +498,8 @@ export const gallery = [
   { id: "g6", image: "/images/viking.jpg", caption: "Viking lander view of the Martian plain", credit: "NASA / JPL", destination: "mars" },
   { id: "g7", image: "/images/spirit.jpg", caption: "Spirit's tracks climbing the Columbia Hills", credit: "NASA / JPL-Caltech / Cornell", destination: "mars" },
   { id: "g8", image: "/images/apollo17-plaque.jpg", caption: "Apollo 17 memorial plaque on the rover wheel", credit: "NASA / Apollo 17", destination: "moon" },
+  { id: "g9", image: "/images/surveyor.jpg", caption: "Surveyor 3 photographed by an Apollo 12 astronaut, 1969", credit: "NASA / Apollo 12", destination: "moon" },
+  { id: "g10", image: "/images/alsep.jpg", caption: "Apollo 14's experiment station wired across the lunar dust", credit: "NASA / Apollo 14", destination: "moon" },
+  { id: "g11", image: "/images/mars-climate-orbiter.jpg", caption: "Mars Climate Orbiter approaching the planet it never reached (artist concept)", credit: "NASA / JPL-Caltech", destination: "mars" },
+  { id: "g12", image: "/images/mars-polar-lander.jpg", caption: "Delta II ready to launch Mars Polar Lander, October 1999", credit: "NASA / Kennedy Space Center", destination: "mars" },
 ];

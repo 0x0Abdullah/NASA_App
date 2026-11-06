@@ -4,7 +4,7 @@
  *
  * Usage: node scripts/fetch-images.mjs
  */
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -25,6 +25,10 @@ const TARGETS = [
   { file: "phoenix.jpg", q: "Phoenix lander Mars north polar", pick: 0 },
   { file: "insight.jpg", q: "InSight lander Mars", pick: 0 },
   { file: "sample-depot.jpg", q: "Perseverance sample tube depot Mars", pick: 0 },
+  { file: "surveyor.jpg", q: "Surveyor 3 lunar lander surface", pick: 0 },
+  { file: "alsep.jpg", nasaId: "as14-67-09361" },
+  { file: "mars-polar-lander.jpg", nasaId: "KSC-98pc1210" },
+  { file: "mars-climate-orbiter.jpg", q: "Mars Climate Orbiter artist concept", pick: 0 },
 ];
 
 async function search(q) {
@@ -60,6 +64,20 @@ async function bestAsset(item) {
   return jpgs[0].replace(/^http:/, "https:");
 }
 
+async function byNasaId(id) {
+  const res = await fetch(`https://images-api.nasa.gov/asset/${encodeURIComponent(id)}`);
+  if (!res.ok) return null;
+  const json = await res.json();
+  const hrefs = (json.collection?.items ?? [])
+    .map((i) => i.href)
+    .filter((h) => h && /\.(jpg|png)/i.test(h));
+  if (!hrefs.length) return null;
+  const rank = (h) =>
+    h.includes("~medium") ? 0 : h.includes("~large") ? 1 : h.includes("~orig") ? 2 : h.includes("~small") ? 3 : 4;
+  hrefs.sort((a, b) => rank(a) - rank(b));
+  return hrefs[0].replace(/^http:/, "https:");
+}
+
 async function run() {
   await mkdir(outDir, { recursive: true });
   let ok = 0;
@@ -67,7 +85,32 @@ async function run() {
 
   for (const t of TARGETS) {
     const dest = path.join(outDir, t.file);
+    const force = process.argv.includes("--force");
+    if (!force) {
+      try {
+        const st = await stat(dest);
+        if (st.size > 5000) {
+          console.log(`• ${t.file} — exists, skipping (use --force to re-download)`);
+          ok++;
+          continue;
+        }
+      } catch {
+        /* not downloaded yet */
+      }
+    }
     try {
+      if (t.nasaId) {
+        const asset = await byNasaId(t.nasaId);
+        if (!asset) throw new Error("no asset for nasa_id");
+        const imgRes = await fetch(asset);
+        if (!imgRes.ok) throw new Error(`download ${imgRes.status}`);
+        const buf = Buffer.from(await imgRes.arrayBuffer());
+        if (buf.byteLength < 5000) throw new Error("file too small");
+        await writeFile(dest, buf);
+        console.log(`✓ ${t.file}  (${(buf.byteLength / 1024).toFixed(0)} KB)`);
+        ok++;
+        continue;
+      }
       const items = await search(t.q);
       if (!items.length) throw new Error("no results");
 
