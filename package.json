@@ -1,0 +1,15 @@
+{
+  "name": "nasa-abandoned-not-forgotten",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Abandoned but not Forgotten - Storytelling about NASA's Discarded Equipment on the Moon and Mars",
+  "scripts": {
+    "dev": "concurrently -n server,client -c yellow,cyan \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "build": "npm run build --prefix client",
+    "start": "NODE_ENV=production node server/index.js"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
