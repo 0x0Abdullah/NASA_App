@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowUp, Github, ImageOff, Mail, MapPin, Phone, Send } from "lucide-react";
+import { ArrowUp, Github, ImageOff, Mail, MapPin, Moon, Phone, Send, Sun } from "lucide-react";
 import { contact, creators, creatorsIntro } from "../data/creators.js";
+import useTheme from "../hooks/useTheme.js";
 
 const socialIcons = { github: Github, email: Mail, phone: Phone, web: Send, x: Send, instagram: Send };
 
@@ -29,6 +31,29 @@ function Avatar({ src, name }) {
 }
 
 export default function Footer() {
+  const { theme, toggle } = useTheme();
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState({ state: "idle", msg: "" });
+
+  const subscribe = async (e) => {
+    e.preventDefault();
+    if (status.state === "loading") return;
+    setStatus({ state: "loading", msg: "" });
+    try {
+      const res = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data.error) throw new Error(data.error || "Request failed");
+      setStatus({ state: "success", msg: data.message });
+      setEmail("");
+    } catch (err) {
+      setStatus({ state: "error", msg: err.message || "Something went wrong — try again." });
+    }
+  };
+
   return (
     <footer className="relative border-t border-signal/15 bg-void/80">
       <div className="mx-auto max-w-7xl px-5 sm:px-8 py-16">
@@ -62,7 +87,7 @@ export default function Footer() {
                 <div className="flex items-center gap-4">
                   <Avatar src={c.avatar} name={c.name} />
                   <div>
-                    <h3 className="font-alt text-lg font-semibold text-white">{c.name}</h3>
+                    <h3 className="font-alt text-lg font-semibold text-lunar">{c.name}</h3>
                     <p className="mt-0.5 font-display text-[10px] uppercase tracking-[0.22em] text-ice">
                       {c.role}
                     </p>
@@ -78,7 +103,7 @@ export default function Footer() {
                         href={href}
                         aria-label={key}
                         title={c.raw?.[key] ?? key}
-                        className="grid size-9 place-items-center rounded-lg border border-lunar/20 text-dust hover:text-white hover:border-signal transition-colors"
+                        className="grid size-9 place-items-center rounded-lg border border-lunar/20 text-dust hover:text-lunar hover:border-signal transition-colors"
                       >
                         <Icon className="size-4" />
                       </a>
@@ -90,6 +115,67 @@ export default function Footer() {
                 </div>
               </motion.article>
             ))}
+          </div>
+        </motion.div>
+
+        {/* ---------- newsletter ---------- */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7, delay: 0.1 }}
+          className="mt-14 panel hud-corners rounded-2xl p-6 sm:p-8"
+        >
+          <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
+            <div>
+              <p className="inline-flex items-center gap-2 font-display text-xs uppercase tracking-[0.4em] text-signal">
+                <span className="size-1.5 rounded-full bg-signal pulse-dot" />
+                Mission dispatch
+              </p>
+              <h3 className="mt-4 font-display text-xl sm:text-2xl font-black text-lunar">
+                JOIN THE TRANSMISSION LIST
+              </h3>
+              <p className="mt-3 max-w-xl text-sm leading-relaxed text-dust">
+                One email when a new artifact joins the archive — fresh stories, timeline entries
+                and gallery frames. No noise, and you can unsubscribe anytime.
+              </p>
+            </div>
+
+            <form onSubmit={subscribe} noValidate className="w-full lg:w-[430px]">
+              <div className="flex flex-col sm:flex-row gap-3">
+                <label className="sr-only" htmlFor="newsletter-email">
+                  Email address
+                </label>
+                <input
+                  id="newsletter-email"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (status.state !== "idle") setStatus({ state: "idle", msg: "" });
+                  }}
+                  placeholder="you@example.com"
+                  className="min-w-0 flex-1 rounded-full border border-lunar/25 bg-hull/60 px-5 py-3 text-sm text-lunar placeholder:text-dust/70 outline-none backdrop-blur transition-colors focus:border-signal/60"
+                />
+                <button
+                  type="submit"
+                  disabled={status.state === "loading"}
+                  className="cta-gradient inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-display text-[11px] font-bold uppercase tracking-[0.12em] text-void hover:shadow-[0_0_40px_-8px_rgba(79,156,255,0.9)] transition-all disabled:opacity-60"
+                >
+                  <Send className="size-3.5" />
+                  {status.state === "loading" ? "Sending…" : "Subscribe"}
+                </button>
+              </div>
+              <p
+                aria-live="polite"
+                className={`mt-3 min-h-4 text-xs ${
+                  status.state === "error" ? "text-rust-light" : "text-ice"
+                }`}
+              >
+                {status.msg}
+              </p>
+            </form>
           </div>
         </motion.div>
 
@@ -116,7 +202,7 @@ export default function Footer() {
                   <a
                     key={c.id}
                     href={c.links.email}
-                    className="group inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-signal to-[#7fc0ff] px-5 py-3 font-display text-[11px] font-bold uppercase tracking-[0.12em] text-void hover:shadow-[0_0_40px_-8px_rgba(79,156,255,0.9)] transition-all"
+                    className="group inline-flex items-center gap-2.5 cta-gradient px-5 py-3 font-display text-[11px] font-bold uppercase tracking-[0.12em] text-void hover:shadow-[0_0_40px_-8px_rgba(79,156,255,0.9)] transition-all"
                   >
                     <Mail className="size-4" />
                     {c.raw.email}
@@ -126,7 +212,7 @@ export default function Footer() {
                   <a
                     key={c.id + "-phone"}
                     href={c.links.phone}
-                    className="group inline-flex items-center gap-2.5 rounded-full border border-lunar/25 px-5 py-3 font-display text-[11px] font-bold uppercase tracking-[0.12em] text-lunar hover:text-white hover:border-signal transition-all"
+                    className="group inline-flex items-center gap-2.5 rounded-full border border-lunar/25 px-5 py-3 font-display text-[11px] font-bold uppercase tracking-[0.12em] text-lunar hover:text-signal hover:border-signal transition-all"
                   >
                     <Phone className="size-4 text-ice" />
                     {c.raw.phone}
@@ -147,7 +233,7 @@ export default function Footer() {
                   <a
                     key={s.id}
                     href={s.href}
-                    className="group inline-flex items-center gap-2 rounded-xl border border-lunar/20 bg-hull/60 px-4 py-3 text-xs font-display uppercase tracking-[0.16em] text-dust hover:text-white hover:border-signal transition-all"
+                    className="group inline-flex items-center gap-2 rounded-xl border border-lunar/20 bg-hull/60 px-4 py-3 text-xs font-display uppercase tracking-[0.16em] text-dust hover:text-lunar hover:border-signal transition-all"
                   >
                     <Icon className="size-4 text-signal" />
                     {s.label}
@@ -165,13 +251,21 @@ export default function Footer() {
             far-flung hardware.
           </p>
           <div className="flex items-center gap-3">
+            <button
+              onClick={toggle}
+              aria-label={`Switch to ${theme === "light" ? "dark" : "light"} theme`}
+              className="inline-flex items-center gap-2 rounded-full border border-lunar/25 px-4 py-2 text-[11px] font-display uppercase tracking-[0.2em] text-dust hover:text-lunar hover:border-signal transition-all"
+            >
+              {theme === "light" ? <Moon className="size-3.5" /> : <Sun className="size-3.5" />}
+              {theme === "light" ? "Dark" : "Light"}
+            </button>
             <span className="hidden sm:inline-flex items-center gap-2 rounded-full border border-signal/30 bg-signal/10 px-3 py-1.5 text-[10px] font-display uppercase tracking-[0.2em] text-ice">
               <span className="size-1.5 rounded-full bg-ice pulse-dot" />
               End of transmission
             </span>
             <a
               href="#top"
-              className="group inline-flex items-center gap-2 rounded-full border border-lunar/25 px-4 py-2 text-[11px] font-display uppercase tracking-[0.2em] text-dust hover:text-white hover:border-signal transition-all"
+              className="group inline-flex items-center gap-2 rounded-full border border-lunar/25 px-4 py-2 text-[11px] font-display uppercase tracking-[0.2em] text-dust hover:text-lunar hover:border-signal transition-all"
             >
               Back to top
               <ArrowUp className="size-3.5 group-hover:-translate-y-0.5 transition-transform" />

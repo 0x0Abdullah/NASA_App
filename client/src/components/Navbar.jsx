@@ -49,7 +49,7 @@ export default function Navbar() {
             <li key={l.href}>
               <a
                 href={l.href}
-                className="relative text-sm font-alt uppercase tracking-[0.18em] text-dust hover:text-white transition-colors group"
+                className="relative text-sm font-alt uppercase tracking-[0.18em] text-dust hover:text-lunar transition-colors group"
               >
                 {l.label}
                 <span className="absolute -bottom-1.5 left-0 h-px w-0 bg-signal transition-all duration-300 group-hover:w-full" />

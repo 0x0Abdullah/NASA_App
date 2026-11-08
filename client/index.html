@@ -11,6 +11,17 @@
     <title>Abandoned but not Forgotten | NASA's Lost Hardware on the Moon & Mars</title>
     <meta name="theme-color" content="#03040a" />
     <meta name="author" content="Abdullah & Khalid Rauf" />
+    <script>
+      // apply saved theme before first paint (no flash)
+      try {
+        var t = localStorage.getItem("anf-theme");
+        if (t === "light") document.documentElement.classList.add("light");
+        else document.documentElement.classList.add("dark");
+        document.documentElement.style.colorScheme = t === "light" ? "light" : "dark";
+      } catch (e) {
+        document.documentElement.classList.add("dark");
+      }
+    </script>
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />

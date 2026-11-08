@@ -69,8 +69,8 @@ export default function Gallery() {
                 aria-pressed={filter === f.id}
                 className={`rounded-full border px-5 py-2 text-[11px] font-display uppercase tracking-[0.18em] transition-all ${
                   filter === f.id
-                    ? "border-signal bg-signal/15 text-white"
-                    : "border-lunar/20 text-dust hover:text-white hover:border-lunar/45"
+                    ? "border-signal bg-signal/15 text-lunar"
+                    : "border-lunar/20 text-dust hover:text-lunar hover:border-lunar/45"
                 }`}
               >
                 {f.label}
@@ -125,7 +125,7 @@ export default function Gallery() {
                       e.currentTarget.style.opacity = "0.15";
                     }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-void/95 via-void/10 to-transparent opacity-80 group-hover:opacity-95 transition-opacity" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-shade/95 via-shade/10 to-transparent opacity-80 group-hover:opacity-95 transition-opacity" />
 
                   {/* zoom badge */}
                   <span className="absolute top-3 right-3 grid place-items-center size-8 rounded-full bg-void/70 border border-signal/40 text-signal opacity-0 group-hover:opacity-100 transition-opacity">
@@ -184,7 +184,7 @@ export default function Gallery() {
               />
               <figcaption className="mt-4 flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <p className="font-alt text-base text-white">{lightboxItem.caption}</p>
+                  <p className="font-alt text-base text-lunar">{lightboxItem.caption}</p>
                   <p className="text-xs uppercase tracking-widest text-dust mt-1">
                     Credit: {lightboxItem.credit}
                   </p>
@@ -192,7 +192,7 @@ export default function Gallery() {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setIndex((i) => (i - 1 + items.length) % items.length)}
-                    className="grid place-items-center size-10 rounded-full border border-lunar/30 text-lunar hover:border-signal hover:text-white transition-colors"
+                    className="grid place-items-center size-10 rounded-full border border-lunar/30 text-lunar hover:border-signal hover:text-signal transition-colors"
                     aria-label="Previous"
                   >
                     <ChevronLeft className="size-5" />
@@ -202,7 +202,7 @@ export default function Gallery() {
                   </span>
                   <button
                     onClick={() => setIndex((i) => (i + 1) % items.length)}
-                    className="grid place-items-center size-10 rounded-full border border-lunar/30 text-lunar hover:border-signal hover:text-white transition-colors"
+                    className="grid place-items-center size-10 rounded-full border border-lunar/30 text-lunar hover:border-signal hover:text-signal transition-colors"
                     aria-label="Next"
                   >
                     <ChevronRight className="size-5" />
@@ -212,7 +212,7 @@ export default function Gallery() {
 
               <button
                 onClick={() => setIndex(null)}
-                className="absolute -top-12 right-0 grid place-items-center size-10 rounded-full border border-lunar/30 text-lunar hover:text-white hover:border-signal transition-colors"
+                className="absolute -top-12 right-0 grid place-items-center size-10 rounded-full border border-lunar/30 text-lunar hover:text-signal hover:border-signal transition-colors"
                 aria-label="Close"
               >
                 <X className="size-5" />

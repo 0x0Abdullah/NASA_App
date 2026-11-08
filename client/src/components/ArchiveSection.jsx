@@ -97,7 +97,7 @@ export default function ArchiveSection() {
                   <li key={l.label}>
                     <a
                       href={l.href}
-                      className="group inline-flex items-center gap-2 text-sm text-dust hover:text-white transition-colors"
+                      className="group inline-flex items-center gap-2 text-sm text-dust hover:text-lunar transition-colors"
                     >
                       <span className="h-px w-3 bg-lunar/30 group-hover:w-5 group-hover:bg-signal transition-all" />
                       {l.label}

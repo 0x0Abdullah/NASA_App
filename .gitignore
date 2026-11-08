@@ -12,6 +12,9 @@ npm-debug.log*
 .env
 .env.*
 
+# Newsletter signups (local only)
+server/subscribers.json
+
 # Editor / OS
 .vscode/
 .idea/

@@ -61,8 +61,8 @@ export default function Timeline() {
                 aria-pressed={active}
                 className={`inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-xs font-display uppercase tracking-[0.18em] transition-all duration-300 ${
                   active
-                    ? "border-signal bg-signal/15 text-white shadow-[0_0_30px_-8px_rgba(79,156,255,0.9)]"
-                    : "border-lunar/20 text-dust hover:border-lunar/50 hover:text-white"
+                    ? "border-signal bg-signal/15 text-lunar shadow-[0_0_30px_-8px_rgba(79,156,255,0.9)]"
+                    : "border-lunar/20 text-dust hover:border-lunar/50 hover:text-lunar"
                 }`}
               >
                 <f.icon className="size-3.5" />
@@ -138,7 +138,7 @@ export default function Timeline() {
                               left ? "md:justify-end" : ""
                             }`}
                           >
-                            <span className="font-display text-2xl font-black text-white tracking-wider">
+                            <span className="font-display text-2xl font-black text-lunar tracking-wider">
                               {t.year}
                             </span>
                             <span
@@ -151,7 +151,7 @@ export default function Timeline() {
                               {isMars ? "Mars" : "Moon"}
                             </span>
                           </div>
-                          <h3 className="font-alt text-lg md:text-xl font-semibold text-white">
+                          <h3 className="font-alt text-lg md:text-xl font-semibold text-lunar">
                             {t.title}
                           </h3>
                           <p className="mt-2 text-sm leading-relaxed text-dust">{t.summary}</p>

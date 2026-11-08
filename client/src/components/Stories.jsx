@@ -66,7 +66,7 @@ function StoryModal({ story, onClose, onNav }) {
               e.currentTarget.style.display = "none";
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-abyss via-abyss/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-shade via-shade/40 to-transparent" />
           <div className="absolute bottom-4 left-5 right-5">
             <div className="flex flex-wrap items-center gap-3">
               <span className="rounded-full bg-signal/20 border border-signal/40 px-3 py-1 text-[10px] font-display uppercase tracking-widest text-ice">
@@ -85,7 +85,7 @@ function StoryModal({ story, onClose, onNav }) {
           </div>
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 grid place-items-center size-9 rounded-full bg-void/70 border border-lunar/30 text-lunar hover:text-white hover:border-signal transition-colors"
+            className="absolute top-4 right-4 grid place-items-center size-9 rounded-full bg-void/70 border border-lunar/30 text-lunar hover:text-signal hover:border-signal transition-colors"
             aria-label="Close story"
           >
             <X className="size-4" />
@@ -109,7 +109,7 @@ function StoryModal({ story, onClose, onNav }) {
                 <p className="text-[10px] uppercase tracking-[0.2em] text-dust font-display">
                   {f.k}
                 </p>
-                <p className="mt-1.5 font-display text-sm font-bold text-white">{f.v}</p>
+                <p className="mt-1.5 font-display text-sm font-bold text-lunar">{f.v}</p>
               </div>
             ))}
           </div>
@@ -122,13 +122,13 @@ function StoryModal({ story, onClose, onNav }) {
             <div className="flex gap-2">
               <button
                 onClick={() => onNav(-1)}
-                className="rounded-full border border-lunar/25 px-4 py-2 text-[11px] font-display uppercase tracking-widest text-dust hover:text-white hover:border-signal transition-all"
+                className="rounded-full border border-lunar/25 px-4 py-2 text-[11px] font-display uppercase tracking-widest text-dust hover:text-lunar hover:border-signal transition-all"
               >
                 ← Prev
               </button>
               <button
                 onClick={() => onNav(1)}
-                className="rounded-full border border-lunar/25 px-4 py-2 text-[11px] font-display uppercase tracking-widest text-dust hover:text-white hover:border-signal transition-all"
+                className="rounded-full border border-lunar/25 px-4 py-2 text-[11px] font-display uppercase tracking-widest text-dust hover:text-lunar hover:border-signal transition-all"
               >
                 Next →
               </button>
@@ -199,7 +199,7 @@ export default function Stories() {
                   onClick={() => setTab(t.id)}
                   aria-pressed={tab === t.id}
                   className={`relative inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-display uppercase tracking-[0.2em] transition-colors ${
-                    tab === t.id ? "text-void" : "text-dust hover:text-white"
+                    tab === t.id ? "text-void" : "text-dust hover:text-lunar"
                   }`}
                 >
                   {tab === t.id && (
@@ -226,14 +226,14 @@ export default function Stories() {
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search stories…"
                 aria-label="Search stories"
-                className="w-full rounded-full border border-lunar/20 bg-hull/60 py-2.5 pl-10 pr-9 text-sm text-white placeholder:text-dust/70 outline-none backdrop-blur transition-colors focus:border-signal/60"
+                className="w-full rounded-full border border-lunar/20 bg-hull/60 py-2.5 pl-10 pr-9 text-sm text-lunar placeholder:text-dust/70 outline-none backdrop-blur transition-colors focus:border-signal/60"
               />
               {query && (
                 <button
                   type="button"
                   onClick={() => setQuery("")}
                   aria-label="Clear search"
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-dust transition-colors hover:text-white"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-dust transition-colors hover:text-lunar"
                 >
                   <X className="size-4" />
                 </button>
@@ -299,7 +299,7 @@ export default function Stories() {
                           e.currentTarget.style.opacity = "0";
                         }}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-abyss via-abyss/25 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-shade via-shade/25 to-transparent" />
                       <span className="absolute top-3 left-3 rounded-full bg-void/75 border border-signal/40 px-3 py-1 text-[10px] font-display tracking-widest text-ice">
                         {s.year}
                       </span>
@@ -323,7 +323,7 @@ export default function Stories() {
                       <p className="font-display text-[10px] uppercase tracking-[0.25em] text-dust">
                         {s.aka}
                       </p>
-                      <h3 className="mt-2 font-alt text-xl font-semibold text-white group-hover:text-ice transition-colors">
+                      <h3 className="mt-2 font-alt text-xl font-semibold text-lunar group-hover:text-ice transition-colors">
                         {s.name}
                       </h3>
                       <p className="mt-2 text-sm text-dust leading-relaxed">{s.tagline}</p>
@@ -343,7 +343,7 @@ export default function Stories() {
         {/* no results */}
         {!loading && !error && filtered.length === 0 && (
           <div className="mt-12 panel rounded-xl p-10 text-center">
-            <p className="font-display text-sm uppercase tracking-[0.25em] text-white">
+            <p className="font-display text-sm uppercase tracking-[0.25em] text-lunar">
               No signals match {q ? `“${query.trim()}”` : "this filter"}
             </p>
             <p className="mx-auto mt-3 max-w-md text-sm text-dust">

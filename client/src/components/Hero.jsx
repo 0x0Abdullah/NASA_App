@@ -56,7 +56,7 @@ export default function Hero() {
       </div>
 
       {/* cinematic vignette */}
-      <div className="absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(3,4,10,0.85)_100%)]" />
+      <div className="absolute inset-0 z-[1] hero-vignette" />
 
       {/* content */}
       <div className="relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-8 pt-28 pb-20">
@@ -90,7 +90,7 @@ export default function Hero() {
           Across two worlds, machines stand exactly where they stopped working — landers covered in
           dust, rovers frozen mid-trail, a helicopter with a broken wing. This is the storytelling
           archive of{" "}
-          <span className="text-white font-medium">NASA's discarded hardware on the Moon and Mars</span>{" "}
+          <span className="text-lunar font-medium">NASA's discarded hardware on the Moon and Mars</span>{" "}
           and the missions that never came to pick them up.
         </motion.p>
 
@@ -102,7 +102,7 @@ export default function Hero() {
         >
           <a
             href="#timeline"
-            className="group relative inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-signal to-[#7fc0ff] px-7 py-3.5 font-display text-sm font-bold uppercase tracking-[0.16em] text-void hover:shadow-[0_0_45px_-6px_rgba(79,156,255,0.8)] transition-all duration-300"
+            className="group relative inline-flex items-center gap-3 rounded-full cta-gradient px-7 py-3.5 font-display text-sm font-bold uppercase tracking-[0.16em] text-void hover:shadow-[0_0_45px_-6px_rgba(79,156,255,0.8)] transition-all duration-300"
           >
             Begin the story
             <ArrowDown className="size-4 group-hover:translate-y-1 transition-transform" />
@@ -128,7 +128,7 @@ export default function Hero() {
             >
               <c.icon className="size-5 text-ice" />
               <div className="leading-tight">
-                <p className="font-display text-sm font-semibold text-white">{c.label}</p>
+                <p className="font-display text-sm font-semibold text-lunar">{c.label}</p>
                 <p className="text-xs text-dust">{c.sub}</p>
               </div>
             </div>

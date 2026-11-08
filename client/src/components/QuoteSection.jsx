@@ -21,7 +21,7 @@ export default function QuoteSection() {
 
       <div className="mx-auto max-w-5xl px-6 text-center">
         <motion.blockquote style={{ opacity }}>
-          <p className="font-display text-2xl sm:text-4xl md:text-5xl font-black leading-tight text-white text-glow-signal">
+          <p className="font-display text-2xl sm:text-4xl md:text-5xl font-black leading-tight text-lunar text-glow-signal">
             “No wind will ever erase these tracks.
             <br className="hidden sm:block" /> No rain will ever wash them away.”
           </p>

@@ -66,7 +66,7 @@ export default function Stats() {
               <p className="font-display text-3xl md:text-[2.4rem] font-black gradient-title leading-none">
                 {loading ? "—" : <Counter value={s.value} suffix={s.suffix} />}
               </p>
-              <p className="mt-3 text-[13px] font-medium text-white/90 leading-snug">{s.label}</p>
+              <p className="mt-3 text-[13px] font-medium text-lunar/90 leading-snug">{s.label}</p>
               <p className="mt-1 text-[11px] text-dust font-alt uppercase tracking-wider">{s.sub}</p>
             </motion.div>
           ))}

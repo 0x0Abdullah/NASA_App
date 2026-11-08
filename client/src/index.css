@@ -11,10 +11,32 @@
   --color-dust: #9aa1ab;
   --color-lunar: #d9dde3;
   --color-marsgold: #f2b34b;
+  /* always-dark ink for overlays drawn on top of photos */
+  --color-shade: #03040a;
 
   --font-display: "Orbitron", ui-sans-serif, system-ui, sans-serif;
   --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-alt: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ---------- light theme (toggle in footer) ----------
+   Overrides the palette tokens; every Tailwind utility that
+   references them (incl. /opacity modifiers) follows along. */
+html.light {
+  --color-void: #eef1f7;
+  --color-abyss: #e2e7f1;
+  --color-hull: #ffffff;
+  --color-lunar: #141d2e;
+  --color-dust: #57616f;
+  --color-signal: #1a5fd0;
+  --color-ice: #0b62a8;
+  --color-rust: #b05a2c;
+  --color-rust-light: #96461d;
+  --color-marsgold: #8a5f04;
+  color-scheme: light;
+}
+html.dark {
+  color-scheme: dark;
 }
 
 html {
@@ -259,4 +281,67 @@ main[tabindex="-1"]:focus {
   html {
     scroll-behavior: auto;
   }
+}
+
+/* ---------- light theme component overrides ---------- */
+html.light .panel {
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.94), rgba(240, 244, 252, 0.97));
+  border-color: rgba(26, 95, 208, 0.28);
+}
+
+html.light .gradient-title {
+  background-image: linear-gradient(180deg, #101a2c 0%, #1a5fd0 100%);
+}
+html.light .gradient-title-mars {
+  background-image: linear-gradient(180deg, #101a2c 0%, #b05a2c 100%);
+}
+
+html.light .space-bg {
+  background:
+    radial-gradient(ellipse 60% 50% at 15% 10%, rgba(26, 95, 208, 0.09), transparent 60%),
+    radial-gradient(ellipse 50% 45% at 85% 30%, rgba(176, 90, 44, 0.09), transparent 60%),
+    radial-gradient(ellipse 70% 60% at 50% 100%, rgba(226, 231, 241, 0.95), transparent 70%),
+    #eef1f7;
+}
+/* dark stars so the field stays visible on a light sky */
+html.light .space-bg::after {
+  background-image:
+    radial-gradient(1px 1px at 20% 30%, rgba(3, 4, 10, 0.55), transparent),
+    radial-gradient(1px 1px at 70% 60%, rgba(3, 4, 10, 0.4), transparent),
+    radial-gradient(1.5px 1.5px at 40% 80%, rgba(3, 4, 10, 0.45), transparent),
+    radial-gradient(1px 1px at 85% 15%, rgba(3, 4, 10, 0.35), transparent),
+    radial-gradient(1.5px 1.5px at 10% 70%, rgba(11, 98, 168, 0.5), transparent),
+    radial-gradient(1px 1px at 55% 25%, rgba(3, 4, 10, 0.4), transparent),
+    radial-gradient(1px 1px at 92% 82%, rgba(3, 4, 10, 0.35), transparent),
+    radial-gradient(1.5px 1.5px at 30% 10%, rgba(3, 4, 10, 0.45), transparent);
+  opacity: 0.55;
+}
+
+.hero-vignette {
+  background: radial-gradient(ellipse at center, transparent 35%, rgba(3, 4, 10, 0.85) 100%);
+}
+html.light .hero-vignette {
+  background: radial-gradient(ellipse at center, transparent 45%, rgba(238, 241, 247, 0.8) 100%);
+}
+
+/* primary CTA fill — stays high-contrast in both themes */
+.cta-gradient {
+  background-image: linear-gradient(90deg, var(--color-signal), #7fc0ff);
+}
+html.light .cta-gradient {
+  background-image: linear-gradient(90deg, #17499f, #2f7ae8);
+}
+
+html.light ::selection {
+  background: var(--color-signal);
+  color: #ffffff;
+}
+html.light ::-webkit-scrollbar-track {
+  background: #e2e7f1;
+}
+html.light ::-webkit-scrollbar-thumb {
+  background: linear-gradient(#1a5fd0, #e2e7f1);
+}
+html.light ::-webkit-scrollbar-thumb:hover {
+  background: #1a5fd0;
 }

@@ -129,7 +129,7 @@ export default function ModelHangar() {
                     <span className="flex-1">
                       <span
                         className={`block font-display text-[13px] font-bold uppercase tracking-[0.14em] ${
-                          on ? "text-white" : "text-lunar"
+                          on ? "text-lunar" : "text-dust"
                         }`}
                       >
                         {e.label}
@@ -162,7 +162,7 @@ export default function ModelHangar() {
                       <dt className="text-[11px] uppercase tracking-[0.18em] text-dust font-display">
                         {s.k}
                       </dt>
-                      <dd className="text-sm font-semibold text-white text-right">{s.v}</dd>
+                      <dd className="text-sm font-semibold text-lunar text-right">{s.v}</dd>
                     </div>
                   ))}
                 </dl>
