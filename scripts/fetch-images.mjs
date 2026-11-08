@@ -87,15 +87,13 @@ async function run() {
     const dest = path.join(outDir, t.file);
     const force = process.argv.includes("--force");
     if (!force) {
-      try {
-        const st = await stat(dest);
-        if (st.size > 5000) {
-          console.log(`• ${t.file} — exists, skipping (use --force to re-download)`);
-          ok++;
-          continue;
-        }
-      } catch {
-        /* not downloaded yet */
+      // skip when the JPEG already exists OR its WebP conversion is in place
+      const jpg = await stat(dest).catch(() => null);
+      const webp = await stat(dest.replace(/\.jpe?g$/i, ".webp")).catch(() => null);
+      if ((jpg && jpg.size > 5000) || (webp && webp.size > 5000)) {
+        console.log(`• ${t.file} — exists, skipping (use --force to re-download)`);
+        ok++;
+        continue;
       }
     }
     try {

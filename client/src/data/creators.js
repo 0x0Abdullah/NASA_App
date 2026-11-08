@@ -2,7 +2,7 @@
  * ============================================================
  *  CREATOR DETAILS — source: E:/desktop/blogofnasa.txt
  *  Avatar: leave "" for an empty placeholder circle, or set
- *          to "/images/avatar-1.jpg" after adding a photo.
+ *          to "/images/avatar-1.webp" after adding a photo.
  * ============================================================
  */
 
@@ -19,7 +19,7 @@ export const creators = [
     name: "Abdullah",
     role: "Creator",
     bio: "Co-creator of the Abandoned · Not Forgotten archive — concept, storytelling and the journey to the Moon and Mars.",
-    avatar: "", // add "/images/avatar-1.jpg" later
+    avatar: "", // add "/images/avatar-1.webp" later
     links: {
       email: "mailto:abdullahhere0812@gmail.com",
       phone: "tel:03332209966",
@@ -36,7 +36,7 @@ export const creators = [
     name: "Khalid Rauf",
     role: "Creator",
     bio: "Co-creator of the Abandoned · Not Forgotten archive — concept, storytelling and the journey to the Moon and Mars.",
-    avatar: "", // add "/images/avatar-2.jpg" later
+    avatar: "", // add "/images/avatar-2.webp" later
     links: {
       email: "mailto:raufkhalid1042@gmail.com",
       phone: "tel:03028448970",

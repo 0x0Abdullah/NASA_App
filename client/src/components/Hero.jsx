@@ -1,6 +1,8 @@
+import { Suspense, lazy } from "react";
 import { motion } from "framer-motion";
 import { ArrowDown, Moon, Rocket } from "lucide-react";
-import SpaceScene from "../three/SpaceScene.jsx";
+
+const SpaceScene = lazy(() => import("../three/SpaceScene.jsx"));
 
 const letterContainer = {
   hidden: {},
@@ -48,7 +50,9 @@ export default function Hero() {
     <section id="top" className="relative min-h-[100svh] flex items-center overflow-hidden">
       {/* 3D background */}
       <div className="absolute inset-0 z-0">
-        <SpaceScene />
+        <Suspense fallback={null}>
+          <SpaceScene />
+        </Suspense>
       </div>
 
       {/* cinematic vignette */}

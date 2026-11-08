@@ -1,4 +1,4 @@
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Canvas } from "@react-three/fiber";
 import { ContactShadows, Float, Grid, OrbitControls } from "@react-three/drei";
@@ -73,6 +73,17 @@ function Exhibit({ id }) {
 export default function ModelHangar() {
   const [active, setActive] = useState("lm");
   const current = exhibits.find((e) => e.id === active);
+  const viewportRef = useRef();
+  const [visible, setVisible] = useState(false);
+
+  // only keep the WebGL render loop running while the viewport is on screen
+  useEffect(() => {
+    const el = viewportRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(([e]) => setVisible(e.isIntersecting));
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   return (
     <section id="hangar" className="relative py-24 md:py-32 overflow-hidden">
@@ -160,10 +171,18 @@ export default function ModelHangar() {
           </div>
 
           {/* 3D viewport */}
-          <div className="order-1 lg:order-2 relative panel rounded-2xl overflow-hidden h-[420px] sm:h-[520px] hud-corners">
+          <div
+            ref={viewportRef}
+            className="order-1 lg:order-2 relative panel rounded-2xl overflow-hidden h-[420px] sm:h-[520px] hud-corners"
+          >
             <div className="absolute inset-0 grid-lines opacity-60 pointer-events-none" />
 
-            <Canvas camera={{ position: [3.6, 2.2, 4.6], fov: 42 }} dpr={[1, 2]} shadows={false}>
+            <Canvas
+              camera={{ position: [3.6, 2.2, 4.6], fov: 42 }}
+              dpr={[1, 1.75]}
+              frameloop={visible ? "always" : "never"}
+              shadows={false}
+            >
               <color attach="background" args={["#060a16"]} />
               <fog attach="fog" args={["#060a16", 9, 20]} />
 

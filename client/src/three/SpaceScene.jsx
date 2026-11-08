@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Stars, Sparkles } from "@react-three/drei";
 import * as THREE from "three";
@@ -93,27 +93,41 @@ function Rig({ children }) {
 export default function SpaceScene() {
   const moonTex = useMemo(() => createMoonTexture(1024), []);
   const marsTex = useMemo(() => createMarsTexture(1024), []);
+  const wrapRef = useRef();
+  const [visible, setVisible] = useState(true);
+
+  // stop the render loop while the hero is scrolled out of view
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(([e]) => setVisible(e.isIntersecting));
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   return (
-    <Canvas
-      camera={{ position: [0, 0, 8], fov: 55 }}
-      dpr={[1, 2]}
-      gl={{ antialias: true, alpha: true }}
-      style={{ background: "transparent" }}
-    >
-      <ambientLight intensity={0.35} />
-      <directionalLight position={[6, 4, 6]} intensity={1.6} color="#ffffff" />
-      <pointLight position={[-5, 2, 2]} intensity={18} color="#4f9cff" distance={20} />
-      <pointLight position={[5, -2, 1]} intensity={14} color="#e6966d" distance={20} />
+    <div ref={wrapRef} className="absolute inset-0">
+      <Canvas
+        camera={{ position: [0, 0, 8], fov: 55 }}
+        dpr={[1, 1.75]}
+        frameloop={visible ? "always" : "never"}
+        gl={{ antialias: true, alpha: true }}
+        style={{ background: "transparent" }}
+      >
+        <ambientLight intensity={0.35} />
+        <directionalLight position={[6, 4, 6]} intensity={1.6} color="#ffffff" />
+        <pointLight position={[-5, 2, 2]} intensity={18} color="#4f9cff" distance={20} />
+        <pointLight position={[5, -2, 1]} intensity={14} color="#e6966d" distance={20} />
 
-      <Stars radius={90} depth={45} count={4200} factor={3.4} saturation={0} fade speed={0.6} />
-      <Sparkles count={90} scale={[14, 8, 8]} size={1.6} speed={0.25} opacity={0.35} color="#9fd4ff" />
+        <Stars radius={90} depth={45} count={4200} factor={3.4} saturation={0} fade speed={0.6} />
+        <Sparkles count={90} scale={[14, 8, 8]} size={1.6} speed={0.25} opacity={0.35} color="#9fd4ff" />
 
-      <Rig>
-        <Planet position={[-4.2, 1.15, -5]} radius={2.1} texture={moonTex} speed={0.045} bumpColor="#8fb8ff" />
-        <Planet position={[4.6, -1.4, -7]} radius={1.75} texture={marsTex} speed={0.06} bumpColor="#ff9a6a" />
-        <Debris />
-      </Rig>
-    </Canvas>
+        <Rig>
+          <Planet position={[-4.2, 1.15, -5]} radius={2.1} texture={moonTex} speed={0.045} bumpColor="#8fb8ff" />
+          <Planet position={[4.6, -1.4, -7]} radius={1.75} texture={marsTex} speed={0.06} bumpColor="#ff9a6a" />
+          <Debris />
+        </Rig>
+      </Canvas>
+    </div>
   );
 }
