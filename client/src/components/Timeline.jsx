@@ -58,6 +58,7 @@ export default function Timeline() {
               <button
                 key={f.id}
                 onClick={() => setFilter(f.id)}
+                aria-pressed={active}
                 className={`inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-xs font-display uppercase tracking-[0.18em] transition-all duration-300 ${
                   active
                     ? "border-signal bg-signal/15 text-white shadow-[0_0_30px_-8px_rgba(79,156,255,0.9)]"

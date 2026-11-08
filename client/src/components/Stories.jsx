@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, Globe2, MapPin, Mars, Moon, Search, X } from "lucide-react";
 import { useFetch } from "../hooks/useApi.js";
+import useFocusTrap from "../hooks/useFocusTrap.js";
 
 const statusMeta = {
   silent: { label: "Signal lost", cls: "bg-dust/15 text-dust border-dust/40" },
@@ -14,6 +15,9 @@ const statusMeta = {
 };
 
 function StoryModal({ story, onClose, onNav }) {
+  const cardRef = useRef(null);
+  useFocusTrap(cardRef, true);
+
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === "Escape") onClose();
@@ -40,6 +44,11 @@ function StoryModal({ story, onClose, onNav }) {
       onClick={onClose}
     >
       <motion.article
+        ref={cardRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label={`${story.name} — story`}
+        tabIndex={-1}
         initial={{ opacity: 0, y: 60, scale: 0.96 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 40, scale: 0.97 }}

@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Mars, Moon, X, ZoomIn } from "lucide-react";
 import { useFetch } from "../hooks/useApi.js";
+import useFocusTrap from "../hooks/useFocusTrap.js";
 
 const filters = [
   { id: "all", label: "All frames" },
@@ -23,10 +24,12 @@ const spans = [
 export default function Gallery() {
   const [filter, setFilter] = useState("all");
   const [index, setIndex] = useState(null);
+  const lightboxRef = useRef(null);
   const { data, loading, error, refetch } = useFetch("/api/gallery");
   const all = data ?? [];
   const items = all.filter((g) => filter === "all" || g.destination === filter);
   const lightboxItem = index !== null ? items[index] : null;
+  useFocusTrap(lightboxRef, lightboxItem !== null);
 
   useEffect(() => {
     if (index === null) return;
@@ -63,6 +66,7 @@ export default function Gallery() {
               <button
                 key={f.id}
                 onClick={() => setFilter(f.id)}
+                aria-pressed={filter === f.id}
                 className={`rounded-full border px-5 py-2 text-[11px] font-display uppercase tracking-[0.18em] transition-all ${
                   filter === f.id
                     ? "border-signal bg-signal/15 text-white"
@@ -161,6 +165,11 @@ export default function Gallery() {
             onClick={() => setIndex(null)}
           >
             <motion.figure
+              ref={lightboxRef}
+              role="dialog"
+              aria-modal="true"
+              aria-label={`Image viewer: ${lightboxItem.caption}`}
+              tabIndex={-1}
               initial={{ scale: 0.94, y: 30 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.95, y: 20 }}
